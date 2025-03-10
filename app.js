@@ -1,76 +1,66 @@
 const menu = document.querySelector("#mobile-menu");
 const menuLinks = document.querySelector(".navbar__menu");
-//ass
+
+// Helper function to normalize the pathname (treat "/" and "/index.html" the same)
+function normalizePathname(pathname) {
+    if (pathname.endsWith("/index.html")) {
+        return pathname.slice(0, -10); // Remove "index.html"
+    }
+    return pathname;
+}
+
+// Function to scroll to a section (if it exists)
+function scrollToSection(sectionId) {
+    const section = document.querySelector(sectionId);
+    if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+// Toggle mobile menu
 menu.addEventListener("click", function () {
-  menu.classList.toggle("is-active");
-  menuLinks.classList.toggle("active");
+    menu.classList.toggle("is-active");
+    menuLinks.classList.toggle("active");
 });
 
-document
-  .querySelector(".toHomeName-link")
-  .addEventListener("click", function (event) {
-    event.preventDefault();
-    if (window.location.pathname === "Portfolio/index.html") {
-      document.querySelector(".main").scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "Portfolio/index.html#main"; // This navigates and scrolls to the correct section on projects.html
-    }
-  });
+// Event listener for navigation links
+function setupNavLink(selector) {
+    const link = document.querySelector(selector);
+    if (link) { // Check if the link exists (important for multiple pages)
+        link.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default anchor jump
 
-  document
-  .querySelector(".toHome-link")
-  .addEventListener("click", function (event) {
-    event.preventDefault();
-    if (window.location.pathname === "Portfolio/index.html") {
-      document.querySelector(".main").scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "Portfolio/index.html#main"; // This navigates and scrolls to the correct section on projects.html
-    }
-  });
+            const targetHref = this.getAttribute("href"); // Get the full href (e.g., "index.html#services")
+            const hashIndex = targetHref.indexOf("#");
+            const targetHash = hashIndex !== -1 ? targetHref.substring(hashIndex) : "";
 
-document
-  .querySelector(".toProjects-link")
-  .addEventListener("click", function (event) {
-    event.preventDefault();
-    if (window.location.pathname === "Portfolio/index.html") {
-      document
-        .querySelector(".services")
-        .scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "Portfolio/index.html#services"; // This navigates and scrolls to the correct section on projects.html
-    }
-  });
 
-// Smooth scrolling for buttons or other links to the Services section (by class name)
-document
-  .querySelector(".toProjects-btn")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor behavior
-    if (window.location.pathname === "Portfolio/index.html") {
-      document
-        .querySelector(".services")
-        .scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "Portfolio/index.html#services"; // Same as above, but for button links
+            //If the page is the same.
+            if (normalizePathname(window.location.pathname) === normalizePathname(targetHref.split("#")[0]) ||
+                normalizePathname(window.location.pathname) + "/" === normalizePathname(targetHref.split("#")[0])
+                )
+            {
+                if(targetHash)
+                {
+                    scrollToSection(targetHash);
+                }
+            } else {
+                // Navigate to the other page, *then* scroll (using the hash)
+                window.location.href = targetHref;
+            }
+        });
     }
-  });
+}
 
-// Smooth scrolling for links to the CV section (by class name)
-document
-  .querySelector(".toCV-link")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent default anchor behavior
-    if (window.location.pathname === "Portfolio/index.html") {
-      document.querySelector(".CV").scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "Portfolio/index.html#CV"; // Redirect to CV page with a hash
-    }
-  });
+// Set up event listeners for all navigation links
+setupNavLink(".toHomeName-link");
+setupNavLink(".toHome-link");
+setupNavLink(".toProjects-link");
+setupNavLink(".toProjects-btn"); // Button
+setupNavLink(".toCV-link");
 
-// Smooth scroll after page load when URL has a hash (if the user navigated directly)
+
+// Scroll to the section on initial page load (if there's a hash)
 if (window.location.hash) {
-  const section = document.querySelector(window.location.hash); // Get the section by hash
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
+    scrollToSection(window.location.hash);
 }
