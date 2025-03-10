@@ -1,18 +1,6 @@
 const menu = document.querySelector("#mobile-menu");
 const menuLinks = document.querySelector(".navbar__menu");
 
-// Helper function to normalize the pathname
-function normalizePathname(pathname) {
-    console.log("normalizePathname called with:", pathname);
-    if (pathname.endsWith("/index.html")) {
-        let result = pathname.slice(0, -10);
-        console.log("normalizePathname returning:", result);
-        return result;
-    }
-    console.log("normalizePathname returning:", pathname);
-    return pathname;
-}
-
 // Function to scroll to a section (if it exists)
 function scrollToSection(sectionId) {
     console.log("scrollToSection called with:", sectionId);
@@ -51,44 +39,41 @@ function setupNavLink(selector) {
                 return; // Exit
             }
 
-            event.preventDefault(); // Prevent default if it is an internal link
+            // --- IMPORTANT: Determine if the link is internal ---
+            const isInternal = targetHref.startsWith("#") || !targetHref.includes("://"); // Correct internal link check
+            console.log("isInternal:", isInternal);
+
+            if (!isInternal) {
+              console.log("Navigating to external URL:", targetHref);
+              return; // Let the browser handle external links
+            }
+
+            event.preventDefault(); // Prevent default anchor jump (for internal links)
 
             const hashIndex = targetHref.indexOf("#");
             const targetHash = hashIndex !== -1 ? targetHref.substring(hashIndex) : "";
             console.log("targetHash:", targetHash);
+            const baseURL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            const absoluteTargetHref = new URL(targetHref, baseURL).href;
+            const absoluteCurrentHref = window.location.href;
 
-            console.log("window.location.pathname:", window.location.pathname);
+            console.log("absoluteTargetHref:", absoluteTargetHref);
+            console.log("absoluteCurrentHref:", absoluteCurrentHref);
 
-            // Get the base path of the target URL (without the hash)
-            let targetBasePath = targetHref.split("#")[0];
-            console.log("targetBasePath (before normalization):", targetBasePath);
+            const targetUrl = new URL(absoluteTargetHref);
+            const currentUrl = new URL(absoluteCurrentHref);
 
-            // Normalize BOTH the current path and the target path
-            let normalizedCurrentPath = normalizePathname(window.location.pathname);
-            let normalizedTargetPath = normalizePathname(targetBasePath);
-             // Ensure trailing slash consistency for comparison
-            if (!normalizedCurrentPath.endsWith("/")) {
-                normalizedCurrentPath += "/";
-            }
-            if (normalizedTargetPath.length > 0 && !normalizedTargetPath.endsWith("/")) {
-                normalizedTargetPath += "/";
-           }
-            console.log("normalizedCurrentPath:", normalizedCurrentPath);
-            console.log("normalizedTargetPath:", normalizedTargetPath);
+            console.log("targetUrl.pathname:", targetUrl.pathname);
+            console.log("currentUrl.pathname:", currentUrl.pathname);
 
 
-            let conditionResult = (normalizedCurrentPath === normalizedTargetPath);
-            console.log("Condition result:", conditionResult);
-            if (conditionResult)
-            {
+            if (targetUrl.pathname === currentUrl.pathname) {
                 if (targetHash) {
                     console.log("Calling scrollToSection with:", targetHash);
                     scrollToSection(targetHash);
                 }
-            }
-             else
-            {
-                console.log("Navigating to:", targetHref);
+            } else {
+                 console.log("Navigating to:", targetHref); // Log navigation
                 window.location.href = targetHref;
             }
         });
@@ -105,10 +90,10 @@ setupNavLink(".toProjects-btn"); // Button
 setupNavLink(".toCV-link");
 
 // Scroll to the section on initial page load (if there's a hash)
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOMContentLoaded event fired");
-    if (window.location.hash) {
-        console.log("Initial hash found:", window.location.hash);
-        scrollToSection(window.location.hash);
-    }
+document.addEventListener("DOMContentLoaded", function() { // THIS IS ESSENTIAL
+  console.log("DOMContentLoaded event fired");
+  if (window.location.hash) {
+      console.log("Initial hash found:", window.location.hash);
+      scrollToSection(window.location.hash); // Correctly inside the handler
+  }
 });
