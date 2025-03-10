@@ -10,10 +10,10 @@ document
   .querySelector(".toHomeName-link")
   .addEventListener("click", function (event) {
     event.preventDefault();
-    if (window.location.pathname === "/index.html") {
+    if (window.location.pathname === "Portfolio/index.html") {
       document.querySelector(".main").scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "index.html#main"; // This navigates and scrolls to the correct section on projects.html
+      window.location.href = "Portfolio/index.html#main"; // This navigates and scrolls to the correct section on projects.html
     }
   });
 
@@ -21,10 +21,10 @@ document
   .querySelector(".toHome-link")
   .addEventListener("click", function (event) {
     event.preventDefault();
-    if (window.location.pathname === "/index.html") {
+    if (window.location.pathname === "Portfolio/index.html") {
       document.querySelector(".main").scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "index.html#main"; // This navigates and scrolls to the correct section on projects.html
+      window.location.href = "Portfolio/index.html#main"; // This navigates and scrolls to the correct section on projects.html
     }
   });
 
@@ -32,12 +32,12 @@ document
   .querySelector(".toProjects-link")
   .addEventListener("click", function (event) {
     event.preventDefault();
-    if (window.location.pathname === "/index.html") {
+    if (window.location.pathname === "Portfolio/index.html") {
       document
         .querySelector(".services")
         .scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "index.html#services"; // This navigates and scrolls to the correct section on projects.html
+      window.location.href = "Portfolio/index.html#services"; // This navigates and scrolls to the correct section on projects.html
     }
   });
 
@@ -46,12 +46,12 @@ document
   .querySelector(".toProjects-btn")
   .addEventListener("click", function (event) {
     event.preventDefault(); // Prevent default anchor behavior
-    if (window.location.pathname === "/index.html") {
+    if (window.location.pathname === "Portfolio/index.html") {
       document
         .querySelector(".services")
         .scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "index.html#services"; // Same as above, but for button links
+      window.location.href = "Portfolio/index.html#services"; // Same as above, but for button links
     }
   });
 
@@ -60,10 +60,10 @@ document
   .querySelector(".toCV-link")
   .addEventListener("click", function (event) {
     event.preventDefault(); // Prevent default anchor behavior
-    if (window.location.pathname === "/index.html") {
+    if (window.location.pathname === "Portfolio/index.html") {
       document.querySelector(".CV").scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "index.html#CV"; // Redirect to CV page with a hash
+      window.location.href = "Portfolio/index.html#CV"; // Redirect to CV page with a hash
     }
   });
 
