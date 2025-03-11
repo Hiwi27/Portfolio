@@ -208,6 +208,7 @@ text-decoration: none;
 
 .main {
     background-color: #141414;
+    padding: 4rem 2rem;
 }
 
 .main__container {
@@ -216,12 +217,11 @@ text-decoration: none;
     align-items: center;
     justify-self: center;
     margin: 0 auto;
-    height: 90vh;
+    height: auto;
     background-color: #141414;
     z-index: 1;
     width: 100%;
     max-width: 1300px;
-    padding: 0 50px;
 }
 
 .main__content h1{
@@ -286,6 +286,7 @@ text-decoration: none;
 
 }
 
+
 @media screen and (max-width: 480px) {
     .main__content h1 {
         font-size: 2rem;
@@ -302,10 +303,65 @@ text-decoration: none;
     }
 }
 
+
+
+/* IMAGESLINE SECTION */
+.imagesline{
+    background-color:#141414 ;
+    padding: 4rem 2rem;
+}
+
+.imagesline__container{
+    overflow: auto;
+    white-space: nowrap;
+    padding: 0 0;
+
+    &::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #000;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 6px;
+        border: 3px solid #000;
+    }
+
+     &::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+    
+}
+
+.imagesline__container img{
+    height: 60%;
+    width: 60%;
+}
+
+@media screen and (max-width: 768px) {
+
+
+ .imagesline__container img{
+    height: 100%;
+    width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .imagesline__container img{
+        height: 100%;
+        width: 100%;
+        }
+}
 /* SECONDARY SECTION */
 
 .secondary {
     background-color: #141414;
+    padding: 4rem 2rem;
 }
 
 .secondary__container {
@@ -320,8 +376,9 @@ text-decoration: none;
     z-index: 1;
     width: 100%;
     max-width: 1800px;
-    padding: 0 50px;
 }
+
+
 
 /* .secondary__content{
 
@@ -487,7 +544,7 @@ text-decoration: none;
     transition: 0.3s ease-out;
 }
 
-/* SOCIAL ICONS */
+/* SOCIAL aaS */
 .social__icons--link {
     color: #fff;
     font-size: 24px;
